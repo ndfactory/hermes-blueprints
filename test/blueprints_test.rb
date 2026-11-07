@@ -113,7 +113,7 @@ class HermesBlueprintsTest < Minitest::Test
     task = task_creates.first
     assert_includes task, "--triage"
     assert_includes task, "--assignee"
-    assert_includes task, "hbplanner"
+    assert_includes task, "research-orchestrator"
     assert_includes task, "--workspace"
     assert_includes task.join(" "), destination
     assert_includes task.join(" "), "Compare studies from 2020 onward"
@@ -184,7 +184,7 @@ class HermesBlueprintsTest < Minitest::Test
   end
 
   def test_missing_profiles_are_reported_before_board_creation
-    ENV["FAKE_HERMES_MISSING_PROFILE"] = "hbresearcher"
+    ENV["FAKE_HERMES_MISSING_PROFILE"] = "research-analyst"
     destination = File.join(@tmp, "idea")
     error = assert_raises(HermesBlueprints::Error) do
       HermesBlueprints::Generator.new(hermes: @fake_hermes).generate(
@@ -192,7 +192,7 @@ class HermesBlueprintsTest < Minitest::Test
       )
     end
 
-    assert_includes error.message, "Missing Hermes profiles: hbresearcher"
+    assert_includes error.message, "Missing Hermes profiles: research-analyst"
     assert_includes error.message, "setup-profiles"
     refute File.exist?(destination)
     calls = File.readlines(@log).map { |line| JSON.parse(line) }
@@ -206,13 +206,13 @@ class HermesBlueprintsTest < Minitest::Test
     HermesBlueprints::Generator.new(hermes: @fake_hermes, output: output).setup_profiles(blueprint: "research")
 
     calls = File.readlines(@log).map { |line| JSON.parse(line) }
-    assert_includes calls, ["profile", "create", "hbplanner", "--description", "Project orchestrator. Clarifies scope, decomposes goals into dependency-aware tasks, delegates to specialists, integrates their work, and reports blockers and completion."]
-    assert_includes calls, ["-p", "hbplanner", "tools", "enable", "kanban"]
+    assert_includes calls, ["profile", "create", "research-orchestrator", "--description", "Research project lead. Clarifies the decision and scope, decomposes the goal into dependency-aware tasks, routes work to specialists, reconciles findings, and reports blockers and completion."]
+    assert_includes calls, ["-p", "research-orchestrator", "tools", "enable", "kanban"]
     assert_includes output.string, "hermes gateway start"
   end
 
   def test_setup_profiles_keeps_existing_profiles_and_continues
-    ENV["FAKE_HERMES_EXISTING_PROFILE"] = "hbplanner"
+    ENV["FAKE_HERMES_EXISTING_PROFILE"] = "research-orchestrator"
     output = StringIO.new
 
     assert_silent do
@@ -220,9 +220,9 @@ class HermesBlueprintsTest < Minitest::Test
     end
 
     calls = File.readlines(@log).map { |line| JSON.parse(line) }
-    assert_equal 4, calls.count { |call| call[0, 2] == ["profile", "create"] }
-    assert_includes output.string, "Profile 'hbplanner' already exists; kept its existing settings."
-    assert_includes calls, ["-p", "hbplanner", "tools", "enable", "kanban"]
+    assert_equal 6, calls.count { |call| call[0, 2] == ["profile", "create"] }
+    assert_includes output.string, "Profile 'research-orchestrator' already exists; kept its existing settings."
+    assert_includes calls, ["-p", "research-orchestrator", "tools", "enable", "kanban"]
   ensure
     ENV.delete("FAKE_HERMES_EXISTING_PROFILE")
   end

@@ -77,7 +77,7 @@ module HermesBlueprints
         %w[id description].each do |key|
           raise Error, "Profile in '#{blueprint["id"]}' is missing '#{key}'." unless profile[key].is_a?(String) && !profile[key].strip.empty?
         end
-        raise Error, "Invalid profile id '#{profile["id"]}'. Use lowercase letters and numbers only." unless profile["id"].match?(/\A[a-z0-9]+\z/)
+        raise Error, "Invalid profile id '#{profile["id"]}'. Use lowercase letters, numbers, and hyphens." unless profile["id"].match?(/\A[a-z0-9]+(?:-[a-z0-9]+)*\z/)
         profile.fetch("id")
       end
       raise Error, "Profile IDs in '#{blueprint["id"]}' must be unique." unless profile_ids.uniq.length == profile_ids.length

@@ -3,18 +3,21 @@
   "name": "Research",
   "description": "Turn an open question into a sourced, reviewed research brief.",
   "skill_id": "research-project",
-  "orchestrator_profile": "hbplanner",
+  "orchestrator_profile": "research-orchestrator",
   "profiles": [
-    { "id": "hbplanner", "description": "Project orchestrator. Clarifies scope, decomposes goals into dependency-aware tasks, delegates to specialists, integrates their work, and reports blockers and completion." },
-    { "id": "hbresearcher", "description": "Research specialist. Finds current primary and authoritative sources, evaluates evidence, records citations and dates, and identifies uncertainty and gaps." },
-    { "id": "hbwriter", "description": "Research writer. Synthesizes verified evidence into clear, audience-appropriate briefs with citations, caveats, and actionable conclusions." },
-    { "id": "hbresearchreviewer", "description": "Independent research quality reviewer. Checks whether evidence supports claims, requirements are met, sources are reliable, and gaps or risks are clearly disclosed." }
+    { "id": "research-orchestrator", "description": "Research project lead. Clarifies the decision and scope, decomposes the goal into dependency-aware tasks, routes work to specialists, reconciles findings, and reports blockers and completion." },
+    { "id": "research-analyst", "description": "Evidence analyst. Finds primary and authoritative sources, extracts relevant findings, compares evidence and counterevidence, tracks citations and dates, and identifies uncertainty and gaps." },
+    { "id": "engineering-analyst", "description": "Technical feasibility analyst. Evaluates system, implementation, integration, performance, and operational implications using technical documentation and clearly stated assumptions." },
+    { "id": "design-reviewer", "description": "User and design reviewer. Examines user needs, workflows, accessibility, usability, and product or service implications; flags assumptions and validates proposed experiences against evidence." },
+    { "id": "technical-writer", "description": "Research communicator. Turns verified findings into clear, structured, audience-appropriate deliverables with traceable citations, definitions, caveats, and practical recommendations." },
+    { "id": "researcher", "description": "Focused research investigator. Conducts targeted source discovery and fact-finding for assigned questions, documenting source quality, relevant claims, dates, and unresolved questions." }
   ],
   "workflow_guidance": [
-    "Clarify the question, decision context, audience, scope, and acceptance criteria before broad research.",
-    "Gather primary and authoritative sources; record links, dates, and exactly which claims each source supports.",
-    "Compare evidence and counterevidence; make uncertainty, conflicts, and evidence gaps explicit.",
-    "Synthesize findings into the requested deliverable with traceable citations and practical implications.",
-    "Use an independent reviewer to check factual support, completeness, clarity, and citation integrity before the planner closes the goal."
+    "The research-orchestrator clarifies the decision context, audience, scope, constraints, time horizon, and acceptance criteria in the project plan before broad research begins.",
+    "Decompose the goal into linked research questions. Assign source discovery and evidence comparison to research-analyst or researcher; route technical feasibility questions to engineering-analyst and user experience questions to design-reviewer.",
+    "For every material claim, capture the source link, publisher, publication or update date, relevant passage or data, and the claim it supports. Prefer primary sources and record source limitations.",
+    "Compare supporting evidence, counterevidence, and competing explanations. Distinguish sourced facts from interpretation and recommendations; make uncertainty, conflicts, assumptions, and evidence gaps explicit.",
+    "Have the technical-writer synthesize the accepted findings into the requested deliverable, keeping citations adjacent to claims and tailoring detail to the audience.",
+    "Before completion, the research-orchestrator checks that acceptance criteria are met, citations resolve and support their claims, specialist findings are reconciled, and unresolved risks or questions are clearly reported."
   ]
 }
