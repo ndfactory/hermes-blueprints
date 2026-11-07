@@ -30,6 +30,9 @@ class HermesBlueprintsTest < Minitest::Test
       elsif args[0, 2] == ["profile", "show"] && ENV["FAKE_HERMES_MISSING_PROFILE"] == args[2]
         warn "Profile not found"
         exit 1
+      elsif args[0, 2] == ["profile", "create"] && ENV["FAKE_HERMES_EXISTING_PROFILE"] == args[2]
+        warn "Profile already exists"
+        exit 1
       elsif args.include?("create") && args.include?("--json")
         task_creates = File.readlines(ENV.fetch("FAKE_HERMES_LOG")).map { |line| JSON.parse(line) }
                           .count { |call| call.include?("create") && call.include?("--json") }
@@ -52,6 +55,7 @@ class HermesBlueprintsTest < Minitest::Test
     ENV.delete("FAKE_HERMES_VERSION")
     ENV.delete("FAKE_HERMES_FAIL_TASK")
     ENV.delete("FAKE_HERMES_MISSING_PROFILE")
+    ENV.delete("FAKE_HERMES_EXISTING_PROFILE")
     FileUtils.remove_entry(@tmp) if @tmp && File.exist?(@tmp)
   end
 
@@ -205,6 +209,22 @@ class HermesBlueprintsTest < Minitest::Test
     assert_includes calls, ["profile", "create", "hbplanner", "--description", "Project orchestrator. Clarifies scope, decomposes goals into dependency-aware tasks, delegates to specialists, integrates their work, and reports blockers and completion."]
     assert_includes calls, ["-p", "hbplanner", "tools", "enable", "kanban"]
     assert_includes output.string, "hermes gateway start"
+  end
+
+  def test_setup_profiles_keeps_existing_profiles_and_continues
+    ENV["FAKE_HERMES_EXISTING_PROFILE"] = "hbplanner"
+    output = StringIO.new
+
+    assert_silent do
+      HermesBlueprints::Generator.new(hermes: @fake_hermes, output: output).setup_profiles(blueprint: "research")
+    end
+
+    calls = File.readlines(@log).map { |line| JSON.parse(line) }
+    assert_equal 4, calls.count { |call| call[0, 2] == ["profile", "create"] }
+    assert_includes output.string, "Profile 'hbplanner' already exists; kept its existing settings."
+    assert_includes calls, ["-p", "hbplanner", "tools", "enable", "kanban"]
+  ensure
+    ENV.delete("FAKE_HERMES_EXISTING_PROFILE")
   end
 
   def test_mid_provisioning_failure_reports_recovery_details_and_keeps_created_files
