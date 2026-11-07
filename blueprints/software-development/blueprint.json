@@ -1,0 +1,20 @@
+{
+  "id": "software-development",
+  "name": "Software Development",
+  "description": "Turn a software idea into a scoped, implemented, and reviewed change.",
+  "skill_id": "software-development-project",
+  "orchestrator_profile": "hbplanner",
+  "profiles": [
+    { "id": "hbplanner", "description": "Project orchestrator. Clarifies scope, decomposes goals into dependency-aware tasks, delegates work to specialists, integrates results, and reports blockers and completion." },
+    { "id": "hbdeveloper", "description": "Software developer. Inspects the existing codebase and documentation, designs focused changes that fit established conventions, implements code, and documents behavior." },
+    { "id": "hbtester", "description": "Software verification specialist. Builds and runs appropriate checks, exercises acceptance criteria and edge cases, diagnoses failures, and reports reproducible evidence." },
+    { "id": "hbcodereviewer", "description": "Independent code reviewer. Checks correctness, regressions, security-sensitive behavior, maintainability, requirements coverage, and evidence from verification." }
+  ],
+  "workflow_guidance": [
+    "Translate the plan into clear user outcomes, constraints, acceptance criteria, and unresolved questions.",
+    "Inspect the repository and its authoritative framework documentation before choosing an implementation approach.",
+    "Break implementation into small dependency-aware slices and assign work to the developer profile.",
+    "Run the relevant checks for changed behavior and cover material edge cases; report what was and was not verified.",
+    "Use an independent reviewer to inspect the final diff and verification evidence before the planner closes the goal."
+  ]
+}

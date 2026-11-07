@@ -1,0 +1,20 @@
+# Local agent and editor state
+.serena/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Ruby and Bundler artifacts
+.bundle/
+vendor/bundle/
+pkg/
+coverage/
+*.gem
+
+# Local runtime files and secrets
+/tmp/
+*.log
+.env
+.env.*
+!.env.example
